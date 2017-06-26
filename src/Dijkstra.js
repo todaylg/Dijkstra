@@ -1,15 +1,13 @@
 /*
-* Author: todaylg,Andrew Hayward
-* Description: 用JavaScript实现的Dijkstra算法，对Andrew Hayward的实现进行了优化及注解
-* About:  Dijkstra算法：https://wenku.baidu.com/view/7cc1e62048d7c1c708a145ee.html
-* License: MIT
+* License:  The MIT License (MIT) Andrew Hayward,todaylg
 */
+
 class Dijkstra {
     constructor(map) {
         this.map = map;
     }
 
-    findShortestPath(start,end,map=this.map){
+    *findShortestPath(start,end,map=this.map){
         let costs = {},
             tempList = {'0':[start]},
             predecessors = {},
@@ -42,7 +40,9 @@ class Dijkstra {
                 if(ListArr.indexOf(node)!=-1) continue;//如果是已经添加的节点就直接跳过
                 console.log('找到其中消耗最小的节点：'+node)
                 ListArr.push(node);
+
                 console.log(ListArr);
+                  yield;
                 if(ListArr.length==mapArr.length) break;//判断所有节点都被加入来作为结束条件
                 if (!bucket.length) delete tempList[first];
                 for (let key in tempList) {
