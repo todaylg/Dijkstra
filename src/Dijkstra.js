@@ -1,7 +1,3 @@
-/*
-* License:  The MIT License (MIT) Andrew Hayward,todaylg
-*/
-
 class Dijkstra {
     constructor(map) {
         this.map = map;
