@@ -1,12 +1,14 @@
 class Graph {
-
     constructor() {
         this.vertices = []; //存储图中所有的顶点名字
         this.adjList = {}; //顶点邻接表
+        this.marked = {};//顶点遍历标识位
+        this.edgeTo = [];//存放从一个顶点到下一个顶点的所有边  
     }
 
     addVertex(v) { //添加顶点
         this.vertices.push(v);
+        this.marked[v] = false;
         if (!this.adjList[v]) this.adjList[v] = {};
     }
 
@@ -14,7 +16,36 @@ class Graph {
         this.adjList[v][w] = n; //基于有向图
         this.adjList[w][v] = n; //基于无向图
     }
-}
+
+    bfs(s) {
+        let queue = [];
+        this.marked[s] = true;
+        queue.push(s);//非数字也是可以push的
+        while (queue.length > 0) {
+            let v = queue.shift();
+            // if (v != undefined) {
+            //     console.log("访问节点：" + v);
+            // }
+            for (let node in this.adjList[v]) {
+                if (!this.marked[node]) {
+                    this.edgeTo[node] = v;//将对应节点存入边数组  
+                    this.marked[node] = true;//依次访问其相邻子列表
+                    queue.push(node);//将子列表推送入队列  
+                }
+            }
+        }
+    }
+
+    shortestPath(source, target) {
+        let path = [];
+        for (let i = target; i != source; i = this.edgeTo[i]) {//在相邻边数组中寻找  
+            path.push(i);
+        }
+        path.push(source);//将起始节点加进最短路径数组  
+        console.log(path);
+        return path;  
+    }
+}  
 
 class Dijkstra {
     constructor(map) {

@@ -12,21 +12,34 @@
 </body>
 <script src="./src/Dijkstra.js"></script>
 <script>
-	var graph = new Graph();
-	var myVertices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
-	for (var i = 0; i < myVertices.length; i++) {
-		graph.addVertex(myVertices[i]);
+	let startTime = new Date().getTime();
+	let graph = new Graph();
+	let myVertices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+	function autoGenera(nodeNum) {
+		for (let i = 0; i < nodeNum; i++) {
+			graph.addVertex(String.fromCharCode(65 + i));
+		}
+		for (let i = 0; i < nodeNum - 1; i++) {
+			let data = {};
+			data.id = String.fromCharCode(65 + i);
+			let source = String.fromCharCode(65 + Math.floor(Math.sqrt(i)));
+			let target = String.fromCharCode(65 + i + 1);
+			graph.addEdge(source, target);
+		}
 	}
-	graph.addEdge('A', 'B');
-	graph.addEdge('A', 'C');
-	graph.addEdge('A', 'D');
-	graph.addEdge('C', 'D');
-	graph.addEdge('C', 'G');
-	graph.addEdge('D', 'G');
-	graph.addEdge('D', 'H');
-	graph.addEdge('B', 'E');
-	graph.addEdge('B', 'F');
-	graph.addEdge('E', 'I');
+	autoGenera(500);
+	//1.多条最短路径的情况
+	//2.性能测试
+	// graph.addEdge('A', 'B');
+	// graph.addEdge('A', 'C');
+	// graph.addEdge('A', 'D');
+	// graph.addEdge('C', 'D');
+	// graph.addEdge('C', 'G');
+	// graph.addEdge('D', 'G');
+	// graph.addEdge('D', 'H');
+	// graph.addEdge('B', 'E');
+	// graph.addEdge('B', 'F');
+	// graph.addEdge('E', 'I');
 	console.log(graph.adjList);
 	//结果如下：
 	// A -> B C D 
@@ -40,8 +53,26 @@
 	// I -> E 
 
 	// var map = {a:{b:2,c:5,d:1},b:{a:2,c:3,d:2},c:{b:3,d:3,e:1,a:5,f:5},d:{a:1,b:2,c:3,e:1},e:{c:1,d:1,f:2},f:{e:2,c:3}};
-	dijkstra = new Dijkstra(graph.adjList);
+	let dijkstra = new Dijkstra(graph.adjList);
 	dijkstra.findShortestPath('A', 'F');
+	let endTime = new Date().getTime();
+	console.log("dijkstra Time: ");
+	console.log(endTime - startTime + "ms");
+
+	//bfs
+	let startTime1 = new Date().getTime();
+	graph.bfs("A");
+	let paths = graph.shortestPath("A", "F");
+	while (paths.length > 0) {//将路径循环找出  
+		if (paths.length > 1) {
+			console.log(paths.pop() + "-");
+		} else {
+			console.log(paths.pop());
+		}
+	}
+	let endTime1 = new Date().getTime();
+	console.log("bfs Time: ");
+	console.log(endTime1 - startTime1 + "ms");
 </script>
 
 </html>
