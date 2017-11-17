@@ -122,3 +122,24 @@ class Dijkstra {
     }
 
 }
+
+class Floyd {
+    constructor(map) {
+        this.map = map;
+    }
+    
+    findShortestPath(start, end, map = this.map) {
+        let inf = 99;
+        for (let k in map) {
+            for (let i in map) {
+                for (let j in map) {
+                    if(map[i][j]===undefined)map[i][j] = inf;
+                    if (map[i][k] != undefined && map[k][j] != undefined && map[i][j] > map[i][k] + map[k][j]){
+                        map[i][j] = map[i][k] + map[k][j];
+                    }
+                }
+            }
+        }
+        console.log(map[start][end]);
+    }
+}
