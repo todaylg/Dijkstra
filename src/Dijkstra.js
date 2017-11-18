@@ -36,6 +36,42 @@ class Graph {
         }
     }
 
+    dfs(s){
+        this.marked[s] = true;
+        this.inStack[s] = true;
+        console.log(s);
+        for (let node in this.adjList[s]) {
+            if (!this.marked[node]) {
+                this.dfs(node);
+            }else if(this.inStack[node]){
+                console.log("有环！！")
+                return false;
+            }
+        }
+        this.inStack[s] = false;
+    }
+
+    //需要先通过dfs判断有没有环
+    //node === e成立时，将此时调用栈中的剩下节点排出即为路径 =
+    findPath(s,e){
+        this.inStack[s] = true;
+        for (let node in this.adjList[s]) {
+            if(node === e){
+                this.wayNumber++;
+                for(let res in this.inStack){
+                    if(this.inStack[res]){
+                        console.log(res);
+                    }
+                }
+                console.log(node);//res
+                this.inStack[s] = false;
+                return;
+            }
+            this.findPath(node,e);
+        }
+        this.inStack[s] = false;
+    }
+    
     shortestPath(source, target) {
         let path = [];
         for (let i = target; i != source; i = this.edgeTo[i]) {//在相邻边数组中寻找  

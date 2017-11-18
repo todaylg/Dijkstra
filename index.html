@@ -15,37 +15,45 @@
 	let graph = new Graph();
 	let myVertices = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
 	//手动挡
-	// for (let i = 0; i < myVertices.length; i++) {
-	//     graph.addVertex(myVertices[i]);
-	// }
-	// //(无环有向图)=> 有环无环/有向无向都可以使用这两种算法
-	// graph.addEdge('A', 'B');
-	// graph.addEdge('A', 'C');
-	// graph.addEdge('A', 'D');
-	// graph.addEdge('C', 'D');
-	// graph.addEdge('C', 'G');
-	// graph.addEdge('D', 'G');
-	// graph.addEdge('D', 'H');
-	// graph.addEdge('B', 'E');
-	// graph.addEdge('B', 'F');
-	// graph.addEdge('E', 'I'); 
-	
-	//自动挡
-	function autoGenera(nodeNum) {
-		for (let i = 0; i < nodeNum; i++) {
-			graph.addVertex(String.fromCharCode(65 + i));
-		}
-		for (let i = 0; i < nodeNum - 1; i++) {
-			let data = {};
-			data.id = String.fromCharCode(65 + i);
-			let source = String.fromCharCode(65 + Math.floor(Math.sqrt(i)));
-			let target = String.fromCharCode(65 + i + 1);
-			graph.addEdge(source, target);
-		}
+	for (let i = 0; i < myVertices.length; i++) {
+		graph.addVertex(myVertices[i]);
 	}
-	autoGenera(100);
+	//(无环有向图)=> 有环无环/有向无向都可以使用这两种算法
+	graph.addEdge('A', 'B');
+	graph.addEdge('A', 'C');
+	graph.addEdge('A', 'D');
+	graph.addEdge('C', 'D');
+	graph.addEdge('C', 'G');
+	graph.addEdge('D', 'G');
+	graph.addEdge('D', 'H');
+	graph.addEdge('B', 'E');
+	graph.addEdge('B', 'F');
+	graph.addEdge('E', 'I');
+
+	//自动挡
+	// function autoGenera(nodeNum) {
+	// 	for (let i = 0; i < nodeNum; i++) {
+	// 		graph.addVertex(String.fromCharCode(65 + i));
+	// 	}
+	// 	for (let i = 0; i < nodeNum - 1; i++) {
+	// 		let data = {};
+	// 		data.id = String.fromCharCode(65 + i);
+	// 		let source = String.fromCharCode(65 + Math.floor(Math.sqrt(i)));
+	// 		let target = String.fromCharCode(65 + i + 1);
+	// 		graph.addEdge(source, target);
+	// 	}
+	// }
+	// autoGenera(100);
 	console.log(graph.adjList);
-	
+
+	//dfs
+	// console.log("dfs!!:");
+	// graph.dfs("A");
+
+	//findPath
+	graph.findPath("A", "G");
+	console.log(graph.wayNumber);
+
 	//bfs 数量多的时候快
 	let startTime1 = new Date().getTime();
 	graph.bfs("A");
@@ -60,7 +68,7 @@
 	let endTime1 = new Date().getTime();
 	console.log("bfs Time: ");
 	console.log(endTime1 - startTime1 + "ms");
-   
+
 	//dijkstra 数量少的时候快
 	let startTime = new Date().getTime();
 	// var map = {a:{b:2,c:5,d:1},b:{a:2,c:3,d:2},c:{b:3,d:3,e:1,a:5,f:5},d:{a:1,b:2,c:3,e:1},e:{c:1,d:1,f:2},f:{e:2,c:3}};
@@ -70,14 +78,14 @@
 	console.log("dijkstra Time: ");
 	console.log(endTime - startTime + "ms");
 
-	 //floyd 最最最最慢的 毕竟时间复杂度O(n^3)
-	 let startTime2 = new Date().getTime();
-	 // var map = {a:{b:2,c:5,d:1},b:{a:2,c:3,d:2},c:{b:3,d:3,e:1,a:5,f:5},d:{a:1,b:2,c:3,e:1},e:{c:1,d:1,f:2},f:{e:2,c:3}};
-	 let floyd = new Floyd(graph.adjList);
-	 floyd.findShortestPath('A', 'F');
-	 let endTime2 = new Date().getTime();
-	 console.log("floyd Time: ");
-	 console.log(endTime2 - startTime2 + "ms");
+	//floyd 最最最最慢的 毕竟时间复杂度O(n^3)
+	let startTime2 = new Date().getTime();
+	// var map = {a:{b:2,c:5,d:1},b:{a:2,c:3,d:2},c:{b:3,d:3,e:1,a:5,f:5},d:{a:1,b:2,c:3,e:1},e:{c:1,d:1,f:2},f:{e:2,c:3}};
+	let floyd = new Floyd(graph.adjList);
+	floyd.findShortestPath('A', 'F');
+	let endTime2 = new Date().getTime();
+	console.log("floyd Time: ");
+	console.log(endTime2 - startTime2 + "ms");
 </script>
 
 </html>
